@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "address": "2245 Collingwood",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Mixon",
+    "monthlyRent": 950,
+    "amountOwed": 2169.33,
+    "status": "delinquent",
+    "notes": "Refi target"
+  },
+  {
+    "id": 2,
+    "address": "2710 Collingwood",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Hurd",
+    "monthlyRent": 1100,
+    "amountOwed": 0,
+    "status": "current",
+    "notes": "Airbnb / rental"
+  },
+  {
+    "id": 3,
+    "address": "2655 Collingwood",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "—",
+    "monthlyRent": 0,
+    "amountOwed": 0,
+    "status": "vacant",
+    "notes": "Fay Servicing"
+  },
+  {
+    "id": 4,
+    "address": "3290 Collingwood",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Schlosser",
+    "monthlyRent": 1200,
+    "amountOwed": 4880.15,
+    "status": "eviction",
+    "notes": "Recently refinanced"
+  },
+  {
+    "id": 5,
+    "address": "2457 West Philadelphia",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Siegal (Unit 6)",
+    "monthlyRent": 650,
+    "amountOwed": 650.00,
+    "status": "partial",
+    "notes": "SPS serviced"
+  },
+  {
+    "id": 6,
+    "address": "2494 Hazelwood",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Leitner / Person",
+    "monthlyRent": 900,
+    "amountOwed": 2283.32,
+    "status": "partial",
+    "notes": "Flat $75 water/tenant"
+  },
+  {
+    "id": 7,
+    "address": "2280 Lawrence",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Burke",
+    "monthlyRent": 1050,
+    "amountOwed": 3566.60,
+    "status": "delinquent",
+    "notes": "Active rental"
+  },
+  {
+    "id": 8,
+    "address": "7359 Kipling",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Artis",
+    "monthlyRent": 950,
+    "amountOwed": 2950.00,
+    "status": "delinquent",
+    "notes": "Refi target"
+  },
+  {
+    "id": 9,
+    "address": "18703 Prairie",
+    "city": "Detroit",
+    "state": "MI",
+    "tenant": "Watson",
+    "monthlyRent": 1000,
+    "amountOwed": 2022.03,
+    "status": "delinquent",
+    "notes": "Active rental"
+  }
+]

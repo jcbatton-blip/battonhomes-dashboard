@@ -1,0 +1,151 @@
+.section {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.section-header {
+  background: #1a1a1a;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.section-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gray);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.rent-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rent-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray);
+  padding: 10px 20px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.rent-table th.th-right {
+  text-align: right;
+}
+
+.rent-table td {
+  padding: 12px 20px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--dark-border);
+  vertical-align: middle;
+  color: var(--white);
+}
+
+.rent-table td.td-right {
+  text-align: right;
+}
+
+.rent-table tr:last-child td {
+  border-bottom: none;
+}
+
+.rent-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.prop-address {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--white);
+}
+
+.prop-city {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: 'DM Mono', monospace;
+  margin-top: 2px;
+}
+
+.tenant-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--cream);
+}
+
+.amount {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.amount.owed {
+  color: var(--red);
+}
+
+.amount.current {
+  color: var(--green);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+}
+
+.pill-red {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.pill-amber {
+  background: var(--amber-dim);
+  color: var(--amber);
+}
+
+.pill-green {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.pill-gray {
+  background: rgba(136, 136, 136, 0.15);
+  color: var(--gray);
+}
+
+@media (max-width: 768px) {
+  .rent-table th,
+  .rent-table td {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  .prop-address {
+    font-size: 12px;
+  }
+}
