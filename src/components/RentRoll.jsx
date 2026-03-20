@@ -47,7 +47,7 @@ export default function RentRoll({ properties }) {
                   </td>
                   <td>
                     <span className="amount">
-                      {property.monthlyRent > 0 ? formatCurrency(property.monthlyRent) : '—'}
+                      {property.monthlyRent > 0 ? formatCurrency(property.monthlyRent) : '\u2014'}
                     </span>
                   </td>
                   <td>

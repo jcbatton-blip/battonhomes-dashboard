@@ -1,0 +1,144 @@
+.urgent-section {
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.urgent-header {
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--red-border);
+  background: rgba(220, 53, 69, 0.04);
+}
+
+.urgent-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.urgent-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--red);
+  opacity: 0.7;
+}
+
+.urgent-list {
+  padding: 4px 0;
+}
+
+.urgent-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(220, 53, 69, 0.08);
+  gap: 12px;
+}
+
+.urgent-item:last-child {
+  border-bottom: none;
+}
+
+.urgent-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.urgent-item-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.urgent-level {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.level-urgent {
+  background: var(--red);
+  color: white;
+}
+
+.level-warning {
+  background: var(--amber);
+  color: white;
+}
+
+.level-today {
+  background: var(--red);
+  color: white;
+  animation: pulse-bg 2s infinite;
+}
+
+@keyframes pulse-bg {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.urgent-task {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.urgent-deadline {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.urgent-owner {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: var(--blue-bg);
+  color: var(--blue);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.urgent-days {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: right;
+}
+
+.days-critical {
+  color: var(--red);
+}
+
+.days-warn {
+  color: var(--amber);
+}
+
+@media (max-width: 768px) {
+  .urgent-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .urgent-item-right {
+    flex-wrap: wrap;
+  }
+}

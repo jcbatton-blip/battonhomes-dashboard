@@ -4,8 +4,8 @@ import './Footer.css'
 export default function Footer() {
   return (
     <footer className="footer">
-      <span>BattonHomes Command Center — The Batton Group, LLC</span>
-      <span>Built by Nigel · {new Date().getFullYear()}</span>
+      <span>BattonHomes HQ Command Center &mdash; The Batton Group, LLC</span>
+      <span>Built by Nigel &middot; {new Date().getFullYear()}</span>
     </footer>
   )
 }
