@@ -1,0 +1,48 @@
+.message-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message-textarea {
+  width: 100%;
+  font-size: 14px;
+  font-family: 'Syne', sans-serif;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  resize: vertical;
+  outline: none;
+  background: white;
+  min-height: 100px;
+}
+
+.message-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+}
+
+.message-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.message-btn {
+  align-self: flex-end;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 10px 24px;
+  border: none;
+  background: #1a1a2e;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.message-btn:hover {
+  background: #2a2a4e;
+}

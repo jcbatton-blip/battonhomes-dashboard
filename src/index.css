@@ -1,20 +1,26 @@
 :root {
-  --black: #0a0a0a;
-  --dark: #111111;
-  --dark-card: #161616;
-  --dark-border: #2a2a2a;
-  --white: #f5f2ec;
-  --cream: #e8e4db;
-  --red: #e74c3c;
-  --red-dim: rgba(231, 76, 60, 0.15);
-  --amber: #f39c12;
-  --amber-dim: rgba(243, 156, 18, 0.15);
-  --green: #2ecc71;
-  --green-dim: rgba(46, 204, 113, 0.15);
-  --blue: #3498db;
-  --blue-dim: rgba(52, 152, 219, 0.15);
-  --gray: #888888;
-  --text-muted: #666666;
+  --bg: #ffffff;
+  --bg-card: #f8f9fa;
+  --bg-hover: #f0f1f3;
+  --border: #e2e5e9;
+  --border-light: #eef0f2;
+  --text: #1a1a2e;
+  --text-secondary: #555770;
+  --text-muted: #8e8ea0;
+  --red: #dc3545;
+  --red-bg: rgba(220, 53, 69, 0.08);
+  --red-border: rgba(220, 53, 69, 0.2);
+  --amber: #e67e22;
+  --amber-bg: rgba(230, 126, 34, 0.08);
+  --amber-border: rgba(230, 126, 34, 0.2);
+  --green: #28a745;
+  --green-bg: rgba(40, 167, 69, 0.08);
+  --green-border: rgba(40, 167, 69, 0.2);
+  --blue: #2563eb;
+  --blue-bg: rgba(37, 99, 235, 0.08);
+  --blue-border: rgba(37, 99, 235, 0.2);
+  --gray: #6c757d;
+  --gray-bg: rgba(108, 117, 125, 0.08);
 }
 
 * {
@@ -24,14 +30,18 @@
 }
 
 body {
-  background: var(--black);
-  color: var(--white);
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Syne', sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--red);
+  background: var(--blue);
   color: white;
+}
+
+input, textarea, select, button {
+  font-family: inherit;
 }

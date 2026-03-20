@@ -1,0 +1,77 @@
+.completed-list {
+  padding: 4px 0;
+}
+
+.completed-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.completed-item:last-child {
+  border-bottom: none;
+}
+
+.completed-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+
+.completed-text {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.completed-text.is-done {
+  text-decoration: line-through;
+  color: var(--green);
+}
+
+.completed-add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.completed-input {
+  flex: 1;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  outline: none;
+  color: var(--text);
+  background: white;
+}
+
+.completed-input:focus {
+  border-color: var(--blue);
+}
+
+.completed-input::placeholder {
+  color: var(--text-muted);
+}
+
+.completed-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 8px 16px;
+  border: 1px solid var(--blue);
+  background: var(--blue);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.completed-btn:hover {
+  opacity: 0.85;
+}
