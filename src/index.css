@@ -1,0 +1,37 @@
+:root {
+  --black: #0a0a0a;
+  --dark: #111111;
+  --dark-card: #161616;
+  --dark-border: #2a2a2a;
+  --white: #f5f2ec;
+  --cream: #e8e4db;
+  --red: #e74c3c;
+  --red-dim: rgba(231, 76, 60, 0.15);
+  --amber: #f39c12;
+  --amber-dim: rgba(243, 156, 18, 0.15);
+  --green: #2ecc71;
+  --green-dim: rgba(46, 204, 113, 0.15);
+  --blue: #3498db;
+  --blue-dim: rgba(52, 152, 219, 0.15);
+  --gray: #888888;
+  --text-muted: #666666;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--red);
+  color: white;
+}
