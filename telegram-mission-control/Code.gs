@@ -43,6 +43,12 @@
 // Script Property named NOTION_DB_ID if the database ever moves.
 var DEFAULT_NOTION_DB_ID = 'dd9dde46-ff20-4d28-894a-1773f40d257f';
 
+// Published Web App /exec URL (Version 3, access "Anyone", execute as owner).
+// This is the endpoint Telegram MUST post to. NEVER register the /dev URL —
+// it is owner-only and returns 401 to Telegram's anonymous POSTs. A Script
+// Property named WEB_APP_URL overrides this if the deployment URL ever changes.
+var DEFAULT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxDICzBcYBxkSUNzkxFIknmi8uKsf8alpCuIs9LO8YNAVWPopU2BYkyUvgnkmw6xALWVw/exec';
+
 // Notion REST API version. 2022-06-28 is stable and works with a plain
 // database_id parent — same surface the existing courier integration uses.
 var NOTION_VERSION = '2022-06-28';
@@ -539,24 +545,20 @@ function setup_showChatIds() {
  */
 function setup_registerWebhook() {
   var token = prop_('TELEGRAM_BOT_TOKEN');
-  if (!token) { Logger.log('Set TELEGRAM_BOT_TOKEN in Script Properties first.'); return; }
+  if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not set in Script Properties.');
 
-  var url = prop_('WEB_APP_URL');
-  if (!url) {
-    var auto = ScriptApp.getService().getUrl();
-    Logger.log('WEB_APP_URL is not set. Do NOT rely on the auto-detected URL below —');
-    Logger.log('from the editor it is usually the owner-only /dev URL (causes 401).');
-    Logger.log('Auto-detected (for reference only): ' + auto);
-    Logger.log('FIX: copy the /exec URL from Deploy -> Manage deployments into a');
-    Logger.log('Script Property named WEB_APP_URL, then run this again.');
-    return;
-  }
+  // Resolve the /exec URL from the WEB_APP_URL property, falling back to the
+  // baked-in default. We deliberately DO NOT use ScriptApp.getService().getUrl()
+  // — from the editor it returns the owner-only /dev URL, which is the exact
+  // 401 trap this whole helper exists to prevent.
+  var url = webAppUrl_();
 
-  if (url.indexOf('/dev') !== -1 || url.slice(-5) !== '/exec') {
-    Logger.log('REFUSING to register: WEB_APP_URL must end in /exec (yours: ' + url + ').');
-    Logger.log('The /dev URL is owner-only and returns 401 to Telegram. Use the /exec');
-    Logger.log('URL from Deploy -> Manage deployments.');
-    return;
+  // Hard guard: refuse to ever register a non-/exec (e.g. /dev) URL. Throwing
+  // makes the failure loud in the execution log instead of silently "ok".
+  if (url.slice(-5) !== '/exec' || url.indexOf('/dev') !== -1) {
+    throw new Error('REFUSING to register a non-/exec URL: "' + url + '". ' +
+      'The /dev URL is owner-only and returns 401 to Telegram. Set WEB_APP_URL ' +
+      'to the /exec URL from Deploy -> Manage deployments.');
   }
 
   var resp = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/setWebhook', {
@@ -573,6 +575,11 @@ function setup_registerWebhook() {
   Logger.log('setWebhook response: ' + resp.getContentText());
 }
 
+/** The published /exec URL Telegram must post to. Property overrides default. */
+function webAppUrl_() {
+  return prop_('WEB_APP_URL') || DEFAULT_WEB_APP_URL;
+}
+
 /**
  * DIAGNOSTIC — run this to confirm the /dev-vs-/exec root cause of a 401.
  * Prints what getUrl() returns, what you've set in WEB_APP_URL, and — most
@@ -582,7 +589,8 @@ function setup_registerWebhook() {
 function setup_diagnoseWebhook() {
   Logger.log('getService().getUrl() = ' + ScriptApp.getService().getUrl() +
     '   (from the editor this is usually the /dev URL — do not register it)');
-  Logger.log('WEB_APP_URL property  = ' + (prop_('WEB_APP_URL') || '(not set)'));
+  Logger.log('WEB_APP_URL property  = ' + (prop_('WEB_APP_URL') || '(not set — using baked-in default)'));
+  Logger.log('URL that will be registered = ' + webAppUrl_());
 
   var token = prop_('TELEGRAM_BOT_TOKEN');
   if (!token) { Logger.log('TELEGRAM_BOT_TOKEN not set.'); return; }
