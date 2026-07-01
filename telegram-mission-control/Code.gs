@@ -525,14 +525,40 @@ function setup_showChatIds() {
 
 /**
  * STEP B — register the Telegram webhook to THIS deployment.
- * Run after you have deployed as a Web App. It reads its own /exec URL,
- * so there is nothing to paste.
+ *
+ * CRITICAL: register the PUBLISHED /exec URL, never the /dev URL.
+ *   - /exec = the deployed web app. Honors "Anyone / anonymous". What Telegram needs.
+ *   - /dev  = the head/test URL. OWNER-ONLY. Anonymous POSTs (Telegram) get 401,
+ *             so doPost never runs and pending_update_count climbs.
+ *
+ * We do NOT trust ScriptApp.getService().getUrl() here: when this function is
+ * run from the editor (the normal way), getUrl() returns the /dev URL — which
+ * is exactly the 401 trap. Instead, paste the /exec URL from
+ * Deploy -> Manage deployments into a Script Property named WEB_APP_URL, then
+ * run this. The function refuses to register anything that isn't an /exec URL.
  */
 function setup_registerWebhook() {
   var token = prop_('TELEGRAM_BOT_TOKEN');
   if (!token) { Logger.log('Set TELEGRAM_BOT_TOKEN in Script Properties first.'); return; }
-  var url = ScriptApp.getService().getUrl();
-  if (!url) { Logger.log('No web app URL. Deploy as a Web App first (see README).'); return; }
+
+  var url = prop_('WEB_APP_URL');
+  if (!url) {
+    var auto = ScriptApp.getService().getUrl();
+    Logger.log('WEB_APP_URL is not set. Do NOT rely on the auto-detected URL below —');
+    Logger.log('from the editor it is usually the owner-only /dev URL (causes 401).');
+    Logger.log('Auto-detected (for reference only): ' + auto);
+    Logger.log('FIX: copy the /exec URL from Deploy -> Manage deployments into a');
+    Logger.log('Script Property named WEB_APP_URL, then run this again.');
+    return;
+  }
+
+  if (url.indexOf('/dev') !== -1 || url.slice(-5) !== '/exec') {
+    Logger.log('REFUSING to register: WEB_APP_URL must end in /exec (yours: ' + url + ').');
+    Logger.log('The /dev URL is owner-only and returns 401 to Telegram. Use the /exec');
+    Logger.log('URL from Deploy -> Manage deployments.');
+    return;
+  }
+
   var resp = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/setWebhook', {
     method: 'post',
     contentType: 'application/json',
@@ -543,8 +569,37 @@ function setup_registerWebhook() {
     }),
     muteHttpExceptions: true
   });
-  Logger.log('Webhook URL: ' + url);
+  Logger.log('Registered webhook URL: ' + url);
   Logger.log('setWebhook response: ' + resp.getContentText());
+}
+
+/**
+ * DIAGNOSTIC — run this to confirm the /dev-vs-/exec root cause of a 401.
+ * Prints what getUrl() returns, what you've set in WEB_APP_URL, and — most
+ * importantly — the URL Telegram is CURRENTLY posting to. If that ends in
+ * /dev, that is your 401.
+ */
+function setup_diagnoseWebhook() {
+  Logger.log('getService().getUrl() = ' + ScriptApp.getService().getUrl() +
+    '   (from the editor this is usually the /dev URL — do not register it)');
+  Logger.log('WEB_APP_URL property  = ' + (prop_('WEB_APP_URL') || '(not set)'));
+
+  var token = prop_('TELEGRAM_BOT_TOKEN');
+  if (!token) { Logger.log('TELEGRAM_BOT_TOKEN not set.'); return; }
+  var resp = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/getWebhookInfo',
+    { muteHttpExceptions: true });
+  var info = JSON.parse(resp.getContentText());
+  var registered = info.result && info.result.url;
+  Logger.log('Telegram is posting to: ' + registered);
+  if (registered && registered.indexOf('/dev') !== -1) {
+    Logger.log('>>> ROOT CAUSE CONFIRMED: registered URL ends in /dev (owner-only -> 401).');
+    Logger.log('>>> Set WEB_APP_URL to the /exec URL and run setup_registerWebhook.');
+  } else if (registered && registered.slice(-5) === '/exec') {
+    Logger.log('Registered URL ends in /exec (correct). If still 401, re-check');
+    Logger.log('"Who has access = Anyone" on the deployment that owns THIS /exec URL.');
+  }
+  Logger.log('last_error_message: ' + (info.result && info.result.last_error_message || '(none)'));
+  Logger.log('pending_update_count: ' + (info.result && info.result.pending_update_count));
 }
 
 /** Check current webhook status (handy for debugging). */

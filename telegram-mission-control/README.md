@@ -144,15 +144,33 @@ this repo's `appsscript.json`:)*
 
    **Save script properties.**
 
-## Step 6 — Register the webhook
+## Step 6 — Register the webhook (use the `/exec` URL!)
 
-1. In the editor toolbar function dropdown, choose **`setup_registerWebhook`**.
-2. Click **▶ Run**.
-3. Open **Execution log**. You should see:
+> ⚠️ **The #1 cause of a 401 / "messages never reach the bot" is registering
+> the wrong URL.** Apps Script gives you two URLs: `/exec` (published, works for
+> Telegram) and `/dev` (owner-only — anonymous callers like Telegram get
+> **401**). You MUST register the `/exec` URL. Do not trust auto-detection: run
+> from the editor, `ScriptApp.getService().getUrl()` returns the `/dev` URL.
+
+1. **Deploy ▾ → Manage deployments.** Copy the **Web app URL** — it ends in
+   **`/exec`**. (This is the same URL from Step 4.6.)
+2. **gear ⚙ Project Settings → Script Properties → Add script property:**
+
+   | Property name | Value |
+   |---|---|
+   | `WEB_APP_URL` | *(paste the `/exec` URL from Manage deployments)* |
+
+   **Save script properties.**
+3. In the editor toolbar function dropdown, choose **`setup_registerWebhook`**
+   and click **▶ Run**.
+4. Open **Execution log**. You should see:
+   `Registered webhook URL: https://…/exec`
    `setWebhook response: {"ok":true,"result":true,"description":"Webhook was set"}`
 
-   If it says anything else, run **`setup_getWebhookInfo`** and check the
-   `last_error_message`.
+   If it says **"REFUSING to register"**, your `WEB_APP_URL` doesn't end in
+   `/exec` — re-copy it from Manage deployments.
+5. Confirm it's live: run **`setup_diagnoseWebhook`** and read the log. It
+   prints the URL Telegram is actually posting to and flags `/dev` if wrong.
 
 ## Step 7 — Test it end-to-end
 
@@ -192,6 +210,7 @@ That's the entire change. Send a voice note and it will be captured.
 
 | Symptom | Fix |
 |---|---|
+| **401 Unauthorized / `pending_update_count` climbing / zero `doPost` executions** | The webhook is registered against the owner-only **`/dev`** URL. Run `setup_diagnoseWebhook`: if the registered URL ends in `/dev`, set `WEB_APP_URL` to the **`/exec`** URL from Manage deployments and re-run `setup_registerWebhook`. A 401 with *no* `doPost` executions always means the request is bounced before your code runs — it's the URL, not the code. |
 | Bot doesn't reply at all | Run `setup_getWebhookInfo`. If `url` is blank or wrong, re-run `setup_registerWebhook`. Confirm "Who has access" = **Anyone**. |
 | `setup_showChatIds` says "No recent messages" | Send the bot a message in Telegram first; getUpdates only shows the last ~24h. If a webhook is already set, run `setup_deleteWebhook`, capture the id, then re-run `setup_registerWebhook`. |
 | Replies but nothing in Notion | Check `NOTION_TOKEN` is correct and the **Max Dispatch Courier** connection is added to the Mission Control database. The Executions view shows the Notion error. |
